@@ -39,3 +39,5 @@ _*class Band*_: creates instances of the band, has a staitc class that allows to
 ### Change Log
 
 1.0: _Added basic functionality_ - 06/10/2020
+
+[Link to PR](https://github.com/LeoKuhorev/pythonic-garage-band/pull/2)
