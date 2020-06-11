@@ -89,6 +89,7 @@ class TestBand:
 
     band = Band('Test Band', g, b, d)
     band_1 = Band('Test Band 1', b)
+    band_from_file = Band.create_from_data('./band.txt')
 
     def test_name(self):
         assert self.band.name == 'Test Band'
@@ -115,4 +116,12 @@ class TestBand:
         assert type(self.band.to_list()) == list
 
     def test_to_list_2(self):
-        assert self.band.to_list() == [self.band, self.band_1]
+        assert self.band.to_list() == [
+            self.band, self.band_1, self.band_from_file]
+
+    def test_create_from_data_1(self):
+        assert isinstance(self.band_from_file, Band)
+
+    def test_create_from_data_2(self):
+        assert str(
+            self.band_from_file) == 'Band name: Band from the File, Band members: Jake (Bass), Den (Drums), Julie (Guitar)'

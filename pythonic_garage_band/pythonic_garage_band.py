@@ -1,3 +1,19 @@
+import sys
+
+
+def str_to_class(classname: str) -> object:
+    """Parses passed in classname from string
+    CREDIT: https://stackoverflow.com/questions/1176136/convert-string-to-python-class-object
+
+    Args:
+        classname (str): Class Name
+
+    Returns:
+        object: Class
+    """
+    return getattr(sys.modules[__name__], classname)
+
+
 class Musician:
     """Class Musician"""
 
@@ -135,3 +151,39 @@ class Band:
         """
         names = ', '.join(f'{m.name} ({m.instrument})' for m in self.members)
         return f'Band name: {self.name}, Band members: {names}'
+
+    @staticmethod
+    def create_from_data(filepath: str) -> object:
+        """Creates a new Band instance from the provided file.
+        Expeted file structure:
+        1st line - Name of the band
+        2nd..nth lines - MusicianClass, musician_name (e.g. Guitarist, Julie)
+
+
+        Args:
+            filepath (str): file to read a new band from
+
+        Returns:
+            object: New instance of Band class
+        """
+        try:
+            with open(filepath, 'r') as f:
+                name = f.readline().strip('\n')
+                new_band = Band(name)
+
+                member = f.readline()
+                while member:
+                    try:
+                        member = member.split(', ')
+                        class_name = str_to_class(member[0])
+                        member_name = member[1].strip('\n')
+                        new_band.members.append(class_name(member_name))
+                        member = f.readline()
+                    except Exception as err:
+                        print(
+                            f'There\'s been an error while processing your request. \nDetails: {err}')
+
+            return new_band
+        except IOError as err:
+            print(f'File {filepath} couldn\'t be read: {err}')
+
