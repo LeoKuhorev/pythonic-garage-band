@@ -14,22 +14,6 @@ class Musician:
         self.instrument = instrument
         self.__class__.members.append(self)
 
-    def __repr__(self) -> str:
-        """How this class will be represented when inspected in the console or inside of repr() method
-
-        Returns:
-            str: Shows the way how the object can be recreated in Python
-        """
-        return f'{self.__class__.__name__}({self.name}, {self.instrument})'
-
-    def __str__(self):
-        """How this class will be represented when printed or inside of str() method
-
-        Returns:
-            str: Human readable class representation
-        """
-        return f'Name: {self.name}, Plays: {self.instrument}'
-
     def get_instrument(self) -> str:
         """Returns what instrument musician plays on
 
@@ -45,6 +29,22 @@ class Musician:
             str: Name of the musician and the instrument they play on
         """
         return f'{self.name} plays solo on {self.instrument}'
+
+    def __repr__(self) -> str:
+        """How this class will be represented when inspected in the console or inside of repr() method
+
+        Returns:
+            str: Shows the way how the object can be recreated in Python
+        """
+        return f'{self.__class__.__name__}({self.name})'
+
+    def __str__(self):
+        """How this class will be represented when printed or inside of str() method
+
+        Returns:
+            str: Human readable class representation
+        """
+        return f'Name: {self.name}, Plays: {self.instrument}'
 
 
 class Guitarist(Musician):
@@ -99,7 +99,7 @@ class Band:
             args (dict, optional): Musician instances
         """
         self.name = name
-        self.members = args
+        self.members = list(args)
         self.__class__.all_bands.append(self)
 
     def play_solos(self) -> str:
@@ -124,7 +124,8 @@ class Band:
         Returns:
             str: Shows the way how the object can be recreated in Python
         """
-        return f'{self.__class__.__name__}({self.name}, {self.members})'
+        names = ', '.join(repr(m) for m in self.members)
+        return f'{self.__class__.__name__}({self.name}, {names})'
 
     def __str__(self):
         """How this class will be represented when printed or inside of str() method
